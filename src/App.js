@@ -2,7 +2,7 @@ import React from 'react'
 import * as BooksAPI from './BooksAPI'
 import './App.css'
 import SearchBook from './SearchBook'
-import BookShelves from './BookShelfs'
+import BookShelves from './BookShelf'
 
 class BooksApp extends React.Component {
   state = {
@@ -21,7 +21,7 @@ class BooksApp extends React.Component {
     BooksAPI.getAll().then(
         (books) => {
             this.setState({books : books})
-            console.log(this.state.books)
+            // console.log(this.state.books)
         }
     )
 }
@@ -30,13 +30,29 @@ class BooksApp extends React.Component {
     this.setState({ showSearchPage: true })
   }
 
+  handleShelfChange = (event,book) => {
+    const shelf = event.target.value
+    // console.log(book)
+    BooksAPI.update(book,shelf).then((data) => {
+      BooksAPI.getAll().then(
+        (books) => {
+            this.setState({books : books})
+        }
+    )
+    })
+
+    this.setState((currentState) => {
+
+    })
+  }
+
   render() {
     return (
       <div className="app">
         {this.state.showSearchPage ? (
           <SearchBook />
         ) : (
-          <BookShelves searchHandler={this.handleSearchButton} books={this.state.books}/>
+          <BookShelves searchHandler={this.handleSearchButton} books={this.state.books} handleShelfChange={this.handleShelfChange}/>
         )}
       </div>
     )

@@ -1,27 +1,25 @@
 import React from 'react'
 // import * as BooksApi from './BooksAPI'
 
-class BookShelves extends React.Component {
+function BookShelves(props) {
 
-
-    render() {
-        return (
-            <div className="list-books">
-                <MyReads />
-                <div className="list-books-content">
-                    <div>
-                        <CurrentlyReading books={this.props.books} />
-                        <WantToRead books={this.props.books} />
-                        <Read books={this.props.books} />
-                    </div>
-                </div>
-                <div className="open-search">
-                    <button onClick={this.props.searchHandler}>Add a book</button>
+    return (
+        <div className="list-books">
+            <MyReads />
+            <div className="list-books-content">
+                <div>
+                    <CurrentlyReading books={props.books} handleShelfChange={props.handleShelfChange} />
+                    <WantToRead books={props.books} handleShelfChange={props.handleShelfChange}/>
+                    <Read books={props.books} handleShelfChange={props.handleShelfChange}/>
                 </div>
             </div>
-        )
-    }
+            <div className="open-search">
+                <button onClick={props.searchHandler}>Add a book</button>
+            </div>
+        </div>
+    )
 }
+
 
 function MyReads(props) {
     return (
@@ -41,7 +39,7 @@ function CurrentlyReading(props) {
             <ShelfName shelfName={'Currently Reading'} />
             <div className="bookshelf-books">
                 <ol className="books-grid">
-                <BookItems books={currentlyReading}/>
+                    <BookItems books={currentlyReading} handleShelfChange={props.handleShelfChange}/>
                 </ol>
             </div>
         </div>
@@ -59,7 +57,7 @@ function WantToRead(props) {
             <ShelfName shelfName={'Want To Read'} />
             <div className="bookshelf-books">
                 <ol className="books-grid">
-                <BookItems books={wantToRead}/>
+                    <BookItems books={wantToRead} handleShelfChange={props.handleShelfChange}/>
                 </ol>
             </div>
         </div>
@@ -78,7 +76,7 @@ function Read(props) {
             <ShelfName shelfName={'Read'} />
             <div className="bookshelf-books">
                 <ol className="books-grid">
-                    <BookItems books={read}/>
+                    <BookItems books={read} handleShelfChange={props.handleShelfChange}/>
                 </ol>
             </div>
         </div>
@@ -88,7 +86,7 @@ function Read(props) {
 function ShelfChanger(props) {
     return (
         <div className="book-shelf-changer">
-            <select>
+            <select value={props.book.shelf} onChange={(event) => {props.handleShelfChange(event , props.book)}}>
                 <option value="move" disabled>Move to...</option>
                 <option value="currentlyReading">Currently Reading</option>
                 <option value="wantToRead">Want to Read</option>
@@ -111,10 +109,10 @@ function BookItems(props) {
             <div className="book">
                 <div className="book-top">
                     <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: 'url(\"' + book.imageLinks.thumbnail + '\")' }}></div>
-                    <ShelfChanger />
+                    <ShelfChanger handleShelfChange={props.handleShelfChange} book={book}/>
                 </div>
                 <div className="book-title">{book.title}</div>
-                <AuthorsList authors={book.authors}/>
+                <AuthorsList authors={book.authors} />
             </div>
         </li>
     )
@@ -125,7 +123,7 @@ function BookItems(props) {
 
 function AuthorsList(props) {
     const authorsList = props.authors.map(author => <div >{author}</div>)
-    return(
+    return (
         <div className="book-authors">{authorsList}</div>
     )
 }
