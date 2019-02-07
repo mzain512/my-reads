@@ -1,9 +1,7 @@
 import React from 'react'
-// import * as BooksApi from './BooksAPI'
 import {Link} from 'react-router-dom'
 
 export function BookShelves(props) {
-
     return (
         <div className="list-books">
             <MyReads />
@@ -20,7 +18,6 @@ export function BookShelves(props) {
         </div>
     )
 }
-
 
 function MyReads(props) {
     return (
@@ -109,7 +106,6 @@ export function BookItems(props) {
         <li key={book.id}>
             <div className="book">
                 <div className="book-top">
-                    {console.log('url(' + book.imageLinks.thumbnail + ')')}
                     <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: 'url(' + book.imageLinks.thumbnail + ')' }}></div>
                     <ShelfChanger handleShelfChange={props.handleShelfChange} book={book}/>
                 </div>
@@ -129,5 +125,3 @@ function AuthorsList(props) {
         <div className="book-authors">{authorsList}</div>
     )
 }
-
-// export default BookShelves;
