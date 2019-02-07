@@ -2,13 +2,19 @@ import React from 'react'
 import { BookItems } from './BookShelf';
 import * as BookApi from './BooksAPI'
 import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types'
 
 class SearchBook extends React.Component {
 
+    static propTypes = {
+        myBooks: PropTypes.array.isRequired,
+        handleShelfChange: PropTypes.func.isRequired,
+    }
+
     state = {
         searchQuery: '',
-        searchedBooks: [] ,
-        shelfValue : ''
+        searchedBooks: [],
+        shelfValue: ''
     }
 
     handleSearchInput = (event) => {
@@ -20,9 +26,15 @@ class SearchBook extends React.Component {
 
     serachApi = () => {
         const { myBooks } = this.props
-        if(this.state.searchQuery !== '') {
+        if (this.state.searchQuery !== '') {
             BookApi.search(this.state.searchQuery).then((books) => {
-                if (Array.isArray(books)) {
+                if (Array.isArray(books)) { //If we get array of books
+                    
+                    /*Here I am filtering out books without thumbnails and authors
+                    Other than that I am also comparing my current shelf books with
+                    searched books so that user can add them to their shelf or user
+                    can manage shelf of their current books in searched results*/
+
                     const filteredData = books.filter(item => {
                         return (item.authors && item.imageLinks)
                     }).map((item) => {
@@ -35,15 +47,14 @@ class SearchBook extends React.Component {
                         return item
                     })
                     this.setState({ searchedBooks: filteredData })
-                } else {
+                } else { //If we do not get array of books
                     window.alert("No result Found")
                 }
-    
             })
         } else {
             this.setState({ searchedBooks: [] })
         }
-        
+
     }
 
     render() {
@@ -79,6 +90,5 @@ function SearchBar(props) {
         </div>
     )
 }
-
 
 export default SearchBook;

@@ -1,7 +1,9 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
+import PropTypes from 'prop-types'
 
 export function BookShelves(props) {
+    
     return (
         <div className="list-books">
             <MyReads />
@@ -17,6 +19,11 @@ export function BookShelves(props) {
             </div>
         </div>
     )
+}
+
+BookShelves.propTypes = {
+    books : PropTypes.array.isRequired,
+    handleShelfChange : PropTypes.func.isRequired
 }
 
 function MyReads(props) {
@@ -44,6 +51,11 @@ function CurrentlyReading(props) {
     )
 }
 
+CurrentlyReading.propTypes = {
+    books : PropTypes.array.isRequired,
+    handleShelfChange : PropTypes.func.isRequired
+}
+
 function WantToRead(props) {
 
     const wantToRead = props.books.filter(
@@ -60,6 +72,11 @@ function WantToRead(props) {
             </div>
         </div>
     )
+}
+
+WantToRead.propTypes = {
+    books : PropTypes.array.isRequired,
+    handleShelfChange : PropTypes.func.isRequired
 }
 
 function Read(props) {
@@ -81,6 +98,11 @@ function Read(props) {
     )
 }
 
+Read.propTypes = {
+    books : PropTypes.array.isRequired,
+    handleShelfChange : PropTypes.func.isRequired
+}
+
 function ShelfChanger(props) {
     return (
         <div className="book-shelf-changer">
@@ -95,10 +117,19 @@ function ShelfChanger(props) {
     )
 }
 
+ShelfChanger.propTypes = {
+    handleShelfChange : PropTypes.func.isRequired,
+    book : PropTypes.object.isRequired
+}
+
 function ShelfName(props) {
     return (
         <h2 className="bookshelf-title">{props.shelfName}</h2>
     )
+}
+
+ShelfName.propTypes = {
+    shelfName : PropTypes.string
 }
 
 export function BookItems(props) {
@@ -119,9 +150,18 @@ export function BookItems(props) {
     )
 }
 
+BookItems.propTypes = {
+    books : PropTypes.array.isRequired,
+    handleShelfChange : PropTypes.func.isRequired
+}
+
 function AuthorsList(props) {
     const authorsList = props.authors.map(author => <div key={author}>{author}</div>)
     return (
         <div className="book-authors">{authorsList}</div>
     )
+}
+
+AuthorsList.prototypes = {
+    authors : PropTypes.array.isRequired
 }

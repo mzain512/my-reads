@@ -11,8 +11,9 @@ To get started developing right away:
 * install all project dependencies with `npm install`
 * install react router with `npm install --save react-router-dom` 
 * install react browser with `npm install --save react-browser-router`
+* install PropType with `npm install --save prop-types`
 * start the development server with `npm start`
-* instal PropType with ``
+
 
 ## What You're Getting
 ```bash
