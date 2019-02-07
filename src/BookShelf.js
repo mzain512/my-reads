@@ -1,7 +1,8 @@
 import React from 'react'
 // import * as BooksApi from './BooksAPI'
+import {Link} from 'react-router-dom'
 
-function BookShelves(props) {
+export function BookShelves(props) {
 
     return (
         <div className="list-books">
@@ -14,7 +15,7 @@ function BookShelves(props) {
                 </div>
             </div>
             <div className="open-search">
-                <button onClick={props.searchHandler}>Add a book</button>
+                <Link to='/search' className='open-search'>Add a book</Link>
             </div>
         </div>
     )
@@ -103,12 +104,13 @@ function ShelfName(props) {
     )
 }
 
-function BookItems(props) {
+export function BookItems(props) {
     const items = props.books.map((book) =>
         <li key={book.id}>
             <div className="book">
                 <div className="book-top">
-                    <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: 'url(\"' + book.imageLinks.thumbnail + '\")' }}></div>
+                    {console.log('url(' + book.imageLinks.thumbnail + ')')}
+                    <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: 'url(' + book.imageLinks.thumbnail + ')' }}></div>
                     <ShelfChanger handleShelfChange={props.handleShelfChange} book={book}/>
                 </div>
                 <div className="book-title">{book.title}</div>
@@ -122,10 +124,10 @@ function BookItems(props) {
 }
 
 function AuthorsList(props) {
-    const authorsList = props.authors.map(author => <div >{author}</div>)
+    const authorsList = props.authors.map(author => <div key={author}>{author}</div>)
     return (
         <div className="book-authors">{authorsList}</div>
     )
 }
 
-export default BookShelves;
+// export default BookShelves;

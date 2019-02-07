@@ -1,30 +1,69 @@
-import React from 'react' 
+import React from 'react'
+import { BookItems } from './BookShelf';
+import * as BookApi from './BooksAPI'
+import {Link} from 'react-router-dom'
 
 class SearchBook extends React.Component {
+
+    state = {
+        searchQuery: '',
+        searchedBooks: []
+    }
+
+    handleSearchInput = (event) => {
+        var input = event.target.value
+        this.setState({ searchQuery: input })
+        clearTimeout(this.timer)
+        this.timer = setTimeout(this.serachApi, 5000)
+    }
+
+    serachApi = () => {
+        BookApi.search(this.state.searchQuery).then((books) => {
+            if(Array.isArray(books)) {
+                const filteredData = books.filter(item => {
+                    return item.imageLinks    
+                }).map((item) => {
+                    item.shelf = ''
+                    return item
+                })
+                console.log(filteredData)
+                this.setState({searchedBooks : filteredData})
+            } else {
+                window.alert("No result Found")
+            }
+            
+        })
+    }
+
     render() {
-        return(
+        return (
             <div className="search-books">
-            <div className="search-books-bar">
-              <button className="close-search" onClick={() => this.setState({ showSearchPage: false })}>Close</button>
-              <div className="search-books-input-wrapper">
-                {/*
-                  NOTES: The search from BooksAPI is limited to a particular set of search terms.
-                  You can find these search terms here:
-                  https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
-
-                  However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
-                  you don't find a specific author or title. Every search is limited by search terms.
-                */}
-                <input type="text" placeholder="Search by title or author"/>
-
-              </div>
+                <div className="search-books-bar">
+                    <Link className="close-search" to={'/'}>Close</Link>
+                    <SearchBar handleSearchInput={this.handleSearchInput} />
+                </div>
+                <SearchResults searchedBooks={this.state.searchedBooks}/>
             </div>
-            <div className="search-books-results">
-              <ol className="books-grid"></ol>
-            </div>
-          </div>
         )
     }
 }
+
+function SearchResults(props) {
+    return (
+        <div className="search-books-results">
+            <ol className="books-grid"><BookItems books={props.searchedBooks}
+                handleShelfChange={props.handleShelfChange} /></ol>
+        </div>
+    )
+}
+
+function SearchBar(props) {
+    return (
+        <div className="search-books-input-wrapper">
+            <input type="text" placeholder="Search by title or author" onChange={props.handleSearchInput} />
+        </div>
+    )
+}
+
 
 export default SearchBook;
