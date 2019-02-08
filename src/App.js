@@ -22,7 +22,7 @@ class BooksApp extends React.Component {
   handleShelfChange = (event, book) => {
     const shelf = event.target.value
     book.shelf = shelf
-    this.setState((prevState) => ({ books: prevState.books }))
+    setTimeout(this.setState((prevState) => ({ books: prevState.books })) , 1000)
     BooksAPI.update(book, shelf).then((data) => {
       BooksAPI.getAll().then(
         (books) => {
