@@ -36,7 +36,7 @@ class SearchBook extends React.Component {
                     can manage shelf of their current books in searched results*/
 
                     const filteredData = books.filter(item => {
-                        return (item.authors && item.imageLinks)
+                        return  item.imageLinks
                     }).map((item) => {
                         item.shelf = 'none'
                         myBooks.forEach((book) => {

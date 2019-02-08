@@ -156,7 +156,12 @@ BookItems.propTypes = {
 }
 
 function AuthorsList(props) {
-    const authorsList = props.authors.map(author => <div key={author}>{author}</div>)
+    let authorsList
+    if(!props.authors) {
+        authorsList = []
+    } else {
+        authorsList = props.authors.map(author => <div key={author}>{author}</div>)
+    }
     return (
         <div className="book-authors">{authorsList}</div>
     )

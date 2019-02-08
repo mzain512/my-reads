@@ -19,6 +19,7 @@ class BooksApp extends React.Component {
     )
   }
 
+  //Funtion which is responisble for changing the book shelfs on both pages
   handleShelfChange = (event, book) => {
     const shelf = event.target.value
     book.shelf = shelf
